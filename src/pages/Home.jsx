@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ACTION_TYPES } from '../reducers/ActionTypes';
 import {BASE_API} from '../api/Api';
 import  Pagination  from '../components/Pagination';
+import HeroSection from '../components/HeroSection';
 
 function Home() {
 
@@ -24,11 +25,14 @@ function Home() {
   }, []);
 
   return (
-    <section className='mainSection'> 
-        <div className='container'>
-            <Pagination data={productsData.allProducts}/>
-        </div>
-    </section>
+    <>
+      <HeroSection/>
+      <section className='mainSection'> 
+          <div className='container'>
+              <Pagination data={productsData.allProducts}/>
+          </div>
+      </section>
+    </>
   )
 }
 

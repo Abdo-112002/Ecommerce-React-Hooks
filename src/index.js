@@ -11,6 +11,9 @@ import Home from './pages/Home';
 import OrdersList from './pages/OrdersList';
 import Root from './routes/Root';
 import PageNotFound from './pages/PageNotFound';
+import Login from './pages/Login';
+import { RequireProfileAuth, RequireUerAuth } from './auth/RequireAuth';
+import Profile from './pages/Profile';
 
 const router = createBrowserRouter([
     {
@@ -38,19 +41,37 @@ const router = createBrowserRouter([
           children : [
             {
               path : "checkout",
-              element : <Checkout/>,
+              element :  <Checkout/> ,
             },
           ]
         },
+        {
+          path : 'login',
+          element :
+          <RequireUerAuth>
+              <Login/>
+          </RequireUerAuth>, 
+        },
+        {
+          path : 'profile',
+          element :
+          <RequireProfileAuth>
+              <Profile/>
+          </RequireProfileAuth>
+        }
       ]
     },
+    // {
+    //   path : '/login',
+    //   element : <Login/>,
+    // }
 ],{
   // basename={process.env.PUBLIC_URL}
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <RouterProvider router={router}/>
+      <RouterProvider router={router}/>
 );
 
 

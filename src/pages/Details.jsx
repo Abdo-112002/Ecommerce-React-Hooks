@@ -12,6 +12,8 @@ import { ACTION_TYPES } from '../reducers/ActionTypes';
 
 function Details() {
 
+  
+  
 
   const {productsData,dispatch , addToCard} = useDataContext();
   let {product_Id} = useParams();

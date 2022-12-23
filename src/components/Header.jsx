@@ -1,14 +1,14 @@
 
 
-import React , {useState , useRef}from 'react';
+import React, { useRef, useState } from 'react';
 
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useDataContext } from '../context/DataContext';
 import NavDropMenu from './NavDropMenu';
 
 function Header() {
 
-    const {productsData} = useDataContext();
+    const {productsData , user , logout} = useDataContext();
     let [open , setOpen] = useState(false);
     const  navRef = useRef();
 
@@ -36,7 +36,13 @@ function Header() {
                         {
                             open &&( <NavDropMenu/>)
                         }
-                        <NavLink className='header__navBar--link' to="/" end>About</NavLink>
+                        <NavLink className='header__navBar--link' to="profile" >profile</NavLink>
+                        {
+                            !user && <NavLink className='header__navBar--link' to="login" >login</NavLink>
+                        }
+                        {
+                            user && <li className='header__navBar--link' onClick={()=> logout()}>logout</li>
+                        }
                     </ul>
                 </nav>
                 <div className='header__openNav' onClick={showNavbar}>
