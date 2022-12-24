@@ -8,7 +8,7 @@ function Profile() {
         <div className='mainSection profile'>
             <div className='container'>
                 <h1>
-                    PROFILE NAME  {user.userName}
+                    PROFILE NAME : <p>{user.userName}</p>
                 </h1>
             </div>
         </div>

@@ -66,23 +66,25 @@ function OrdersList() {
                         })
                     }
                   </tbody>
-                  <tfoot >
+                  <tfoot>
+                    <tr>
+                      <td>
+                        CART TOTAL: 
+                        {
+                            productsData.cardList.length > 0 
+                            ? finalTotal()
+                            : ' your cart is empty'
+                        }
+                      </td>
+                    </tr>
+                    <tr>
                     <td>
-                     CART TOTAL: 
-                    </td>
-                    <td>
-                      {
-                          productsData.cardList.length > 0 
-                          ? finalTotal()
-                          : ' your cart is empty'
-                      }
-                    </td>
-                    <td>
-                      {
-                        productsData.cardList.length > 0 &&
-                        <button className='btn' onClick={()=> navigate('checkout')}>checkout</button>
-                      }
-                    </td>
+                        {
+                          productsData.cardList.length > 0 &&
+                          <button className='btn' onClick={()=> navigate('checkout')}>checkout</button>
+                        }
+                      </td>
+                    </tr>
                   </tfoot>
               </table>
             </div>

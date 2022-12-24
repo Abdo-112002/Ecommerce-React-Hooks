@@ -46,7 +46,7 @@ function DataContext({children}) {
         };
         setUser(user);
         navigate(redirect, {replace : true});
-        console.log("user added");
+        showNotification(true,`welcome ${user.userName}`);
     }
 
     function logout(){

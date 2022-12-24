@@ -23,7 +23,7 @@ function NavDropMenu() {
                     <div className='item__info'>
                         <p>{item.title}</p>
                         <span>${(item.price - (item.price * (Math.round(item.discountPercentage)/100))).toFixed(2)}</span>
-                        <ProductBtnControl productID={item.id}/>
+                        {/* <ProductBtnControl productID={item.id}/> */}
                         <DeleteProduct  productID={item.id}/>
                     </div>
                 </div>
