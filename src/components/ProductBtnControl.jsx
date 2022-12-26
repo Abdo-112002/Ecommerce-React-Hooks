@@ -1,11 +1,11 @@
 
 
-import React from 'react'
+import React from 'react';
 import { useDataContext } from '../context/DataContext';
 import { ACTION_TYPES } from '../reducers/ActionTypes';
 
 function ProductBtnControl({productID}) {
-  const {productsData, dispatch } = useDataContext();
+  const {productsData, dispatch , showNotification} = useDataContext();
 
   
   function handelQuantityDecrease(){
@@ -14,6 +14,12 @@ function ProductBtnControl({productID}) {
 
   function handelQuantityIncrease(){
       dispatch({type:ACTION_TYPES.INCREASE_ITEM , payload : productID});
+      let {stock,quantity} = productsData.cardList?.find((el)=> {
+          return el.id === productID ;
+      });
+      if(quantity >= stock){
+        showNotification(false,'The store no longer contains a quantity greater than that');
+      }
   }
 
   function getQuantity(){
