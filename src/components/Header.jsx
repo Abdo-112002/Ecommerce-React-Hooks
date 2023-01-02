@@ -2,15 +2,17 @@
 
 import React, { useRef, useState } from 'react';
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDataContext } from '../context/DataContext';
+import { ACTION_TYPES } from '../reducers/ActionTypes';
 import NavDropMenu from './NavDropMenu';
 
 function Header() {
 
-    const {productsData , user , logout} = useDataContext();
+    const {productsData , user , logout , dispatch , showNotification} = useDataContext();
     let [open , setOpen] = useState(false);
     const  navRef = useRef();
+    const navigate = useNavigate();
 
     function openProductsMenu(){
         setOpen((prev) => !prev);
@@ -19,6 +21,19 @@ function Header() {
     const showNavbar = () => {
 		navRef.current.classList.toggle("active_nav");
 	};
+
+    const handelLogout = async () => {
+        try{
+            await logout();
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('user');
+            dispatch({type : ACTION_TYPES.CLEAR_CART_LIST , payload : []});
+            navigate('/');
+        }catch(error){
+            showNotification(false,error.name);
+        }
+    }
+    
 
   return (
     <header className='header'>
@@ -41,7 +56,7 @@ function Header() {
                             !user && <NavLink className='header__navBar--link' to="login" >login</NavLink>
                         }
                         {
-                            user && <li className='header__navBar--link' onClick={()=> logout()}>logout</li>
+                            user && <li className='header__navBar--link' onClick={handelLogout}>logout</li>
                         }
                     </ul>
                 </nav>

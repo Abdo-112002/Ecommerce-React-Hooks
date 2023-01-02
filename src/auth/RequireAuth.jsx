@@ -13,10 +13,19 @@ export function RequireUerAuth({children}) {
     return children;
 }
 
+export function RequireUerLoginAuth({children}) {
+    const token = localStorage.getItem('userToken');
+    if(token){
+        return <Navigate to='/'/>
+    }
+    return children;
+}
+
+
 export function RequireProfileAuth({children}) {
-  const {user} = useDataContext();
+    const token = localStorage.getItem('userToken');
   const location = useLocation();
-  if(!user){
+  if(!token){
       return <Navigate to='/login' state={{path : location.pathname}}/>
   }
   return children;

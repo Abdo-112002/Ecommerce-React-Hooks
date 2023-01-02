@@ -12,8 +12,11 @@ import OrdersList from './pages/OrdersList';
 import Root from './routes/Root';
 import PageNotFound from './pages/PageNotFound';
 import Login from './pages/Login';
-import { RequireProfileAuth, RequireUerAuth } from './auth/RequireAuth';
+import { RequireProfileAuth, RequireUerAuth, RequireUerLoginAuth } from './auth/RequireAuth';
 import Profile from './pages/Profile';
+import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import UpdateProfile from './pages/UpdateProfile';
 
 const router = createBrowserRouter([
     {
@@ -48,9 +51,9 @@ const router = createBrowserRouter([
         {
           path : 'login',
           element :
-          <RequireUerAuth>
-              <Login/>
-          </RequireUerAuth>, 
+          <RequireUerLoginAuth>
+               <Login/>
+          </RequireUerLoginAuth>
         },
         {
           path : 'profile',
@@ -58,7 +61,27 @@ const router = createBrowserRouter([
           <RequireProfileAuth>
               <Profile/>
           </RequireProfileAuth>
-        }
+        },
+        {
+          path : 'signup',
+          element :
+          <RequireUerAuth>
+                <Signup/>
+          </RequireUerAuth>
+        },
+        {
+          path : 'forgot-password',
+          element :<RequireUerLoginAuth>
+              <ForgotPassword/>
+          </RequireUerLoginAuth>
+        },
+        {
+          path : 'update-profile',
+          element :
+          <RequireProfileAuth>
+              <UpdateProfile/> 
+          </RequireProfileAuth>
+        },
       ]
     },
     // {

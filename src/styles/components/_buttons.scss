@@ -58,4 +58,15 @@
     cursor: pointer;
     margin: 15px 0px;
     margin-right: 10px;
+    
+    &:disabled {
+        opacity: .5;
+        cursor:no-drop;
+    }
+}
+
+.authLink {
+    text-decoration: underline;
+    text-transform: none;
+    color: royalblue;
 }

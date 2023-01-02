@@ -1,10 +1,22 @@
 
 
 import React, { createContext, useContext, useEffect, useReducer , useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ACTION_TYPES } from '../reducers/ActionTypes';
 import { INITIAL_STATE, productReducer } from '../reducers/ProductsReducer';
 import Swal from 'sweetalert2';
+import {
+    createUserWithEmailAndPassword,
+    onAuthStateChanged ,
+    signOut ,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail,
+    updateEmail,
+    updatePassword,
+    signInWithPopup,
+    signInWithRedirect ,
+} from 'firebase/auth';
+import {auth , googleAuth} from '../firebase';
 
 export const appContext = createContext();
 
@@ -12,10 +24,7 @@ function DataContext({children}) {
 
     const [data,dispatch] =  useReducer(productReducer, INITIAL_STATE);
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
-
     const navigate = useNavigate();
-    const location = useLocation();
-    let redirect = location.state?.path || '/';
 
     function addToCard(item) {
         if(!user) {
@@ -38,21 +47,48 @@ function DataContext({children}) {
         data.cardList.length === 1 && navigate('/');
     }
 
-    function login(user){
-        const areFalsy = Object.values(user).every(value => value);
-        if(!areFalsy) {
-            showNotification(false,'please fill your data');
-            return;
-        };
-        setUser(user);
-        navigate(redirect, {replace : true});
-        showNotification(true,`welcome ${user.userName}`);
+    function login({userName:email ,password }){
+        return signInWithEmailAndPassword(auth,email,password);
     }
 
+    function loginWithGoogle(){
+       return signInWithPopup(auth , googleAuth);
+    }
+
+    function signup(email,password){
+       return createUserWithEmailAndPassword(auth,email,password);
+    }
+
+    function forgotPassword(email){
+        return sendPasswordResetEmail(auth,email);
+    }
+
+    function updateUserEmail(email){
+        return updateEmail(auth.currentUser,email);
+    }
+    function updateUserPassword(password){
+        return updatePassword(auth.currentUser,password);
+    }
+
+    // add new user  
+    useEffect(() => {
+       const unSubscribe = onAuthStateChanged(auth,(user) => {
+            setUser(user);
+        });
+
+        if(!user){
+            localStorage.removeItem('userToken');
+        }
+
+        return () => {
+            unSubscribe();
+        }
+        
+    },[]);
+
     function logout(){
-        setUser(null);
-        dispatch({type : ACTION_TYPES.CLEAR_CART_LIST , payload : []});
-        navigate('/');
+        // setUser(null);
+       return signOut(auth);
     }
 
     function showNotification(status,statusText) {
@@ -84,6 +120,11 @@ function DataContext({children}) {
                 login,
                 logout,
                 showNotification,
+                signup,
+                forgotPassword,
+                updateUserEmail,
+                updateUserPassword,
+                loginWithGoogle
             }
         }>
             {children}

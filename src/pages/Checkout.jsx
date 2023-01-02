@@ -65,8 +65,9 @@ function Checkout() {
    useEffect(() => {
         ref.current.innerHTML = "";
         if(productsData.cardList.length > 0) renderPaypal();
-   }, [productsData.cardList])   
-
+   }, [productsData.cardList])  
+   
+  
   return (
     <div className='mainSection checkout' id='paypal-button-container' ref={ref} style={{textAlign:"center"}}>
         
